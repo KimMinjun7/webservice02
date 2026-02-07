@@ -315,102 +315,6 @@
   box-shadow: 0 6px 20px rgba(78, 205, 196, 0.3);
 }
 
-/* ========== Modal ========== */
-.modal-overlay {
-  position: fixed;
-  inset: 0;
-  background: rgba(0, 0, 0, 0.3);
-  backdrop-filter: blur(8px);
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  padding: 20px;
-  z-index: 100;
-}
-
-.modal {
-  background: var(--card-bg);
-  border-radius: 24px;
-  padding: 40px 32px;
-  max-width: 400px;
-  width: 100%;
-  text-align: center;
-  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.15);
-  animation: bounceIn 0.5s ease;
-}
-
-.modal-emoji {
-  font-size: 3rem;
-  margin-bottom: 16px;
-}
-
-.modal h2 {
-  font-family: var(--font-heading);
-  font-size: 1.4rem;
-  font-weight: 800;
-  color: var(--text);
-  margin-bottom: 8px;
-}
-
-.modal-desc {
-  font-size: 0.9rem;
-  color: var(--text-light);
-  line-height: 1.6;
-  margin-bottom: 24px;
-}
-
-.modal-input {
-  width: 100%;
-  padding: 14px 18px;
-  font-size: 1rem;
-  font-family: var(--font-body);
-  border: 2px solid #E8E8E8;
-  border-radius: 14px;
-  outline: none;
-  transition: border-color 0.3s;
-  margin-bottom: 16px;
-}
-
-.modal-input:focus {
-  border-color: var(--pink);
-}
-
-.modal-button {
-  width: 100%;
-  padding: 14px;
-  font-size: 1.05rem;
-  font-weight: 700;
-  font-family: var(--font-heading);
-  color: #fff;
-  background: linear-gradient(135deg, var(--pink), var(--pink-light));
-  border: none;
-  border-radius: 14px;
-  cursor: pointer;
-  transition: all 0.3s ease;
-  margin-bottom: 16px;
-}
-
-.modal-button:hover:not(:disabled) {
-  transform: translateY(-2px);
-  box-shadow: 0 6px 20px var(--shadow);
-}
-
-.modal-button:disabled {
-  opacity: 0.5;
-  cursor: not-allowed;
-}
-
-.modal-link {
-  font-size: 0.85rem;
-  color: var(--mint);
-  font-weight: 600;
-  text-decoration: none;
-}
-
-.modal-link:hover {
-  text-decoration: underline;
-}
-
 /* ========== Footer ========== */
 .footer {
   display: flex;
@@ -420,23 +324,6 @@
   padding: 20px 0;
   font-size: 0.8rem;
   color: var(--text-light);
-}
-
-.footer-key-btn {
-  font-size: 0.8rem;
-  font-family: var(--font-body);
-  color: var(--text-light);
-  background: none;
-  border: 1.5px solid #E0E0E0;
-  border-radius: 20px;
-  padding: 4px 12px;
-  cursor: pointer;
-  transition: all 0.3s;
-}
-
-.footer-key-btn:hover {
-  border-color: var(--pink);
-  color: var(--pink);
 }
 
 /* ========== Animations ========== */
@@ -468,8 +355,5 @@
   }
   .result-card {
     padding: 24px 16px;
-  }
-  .modal {
-    padding: 32px 20px;
   }
 }

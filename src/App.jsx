@@ -1,28 +1,15 @@
-import React, { useState, useCallback, useEffect } from 'react';
+import React, { useState, useCallback } from 'react';
 import './App.css';
 import { analyzeFace } from './services/gemini';
-import ApiKeyModal from './components/ApiKeyModal';
 import DropZone from './components/DropZone';
 import LoadingAnimation from './components/LoadingAnimation';
 import ResultCard from './components/ResultCard';
 
-const API_KEY_STORAGE = 'hf_token';
-
-function getStoredKey() {
-  return localStorage.getItem(API_KEY_STORAGE) || import.meta.env.VITE_HF_TOKEN || '';
-}
-
 function App() {
-  const [apiKey, setApiKey] = useState(getStoredKey);
   const [image, setImage] = useState(null);
   const [loading, setLoading] = useState(false);
   const [result, setResult] = useState(null);
   const [error, setError] = useState('');
-
-  const handleApiKey = useCallback((key) => {
-    localStorage.setItem(API_KEY_STORAGE, key);
-    setApiKey(key);
-  }, []);
 
   const handleImageSelect = useCallback((img) => {
     setImage(img);
@@ -31,19 +18,19 @@ function App() {
   }, []);
 
   const handleAnalyze = useCallback(async () => {
-    if (!image || !apiKey) return;
+    if (!image) return;
     setLoading(true);
     setError('');
     setResult(null);
     try {
-      const data = await analyzeFace(image.base64, image.mimeType, apiKey);
+      const data = await analyzeFace(image.base64, image.mimeType);
       setResult(data);
     } catch (err) {
       setError(err.message);
     } finally {
       setLoading(false);
     }
-  }, [image, apiKey]);
+  }, [image]);
 
   const handleRetry = useCallback(() => {
     setImage(null);
@@ -69,15 +56,6 @@ function App() {
       }
     }
   }, [result]);
-
-  const handleResetKey = useCallback(() => {
-    localStorage.removeItem(API_KEY_STORAGE);
-    setApiKey('');
-  }, []);
-
-  if (!apiKey) {
-    return <ApiKeyModal onSubmit={handleApiKey} />;
-  }
 
   return (
     <div className="app">
@@ -125,9 +103,6 @@ function App() {
 
       <footer className="footer">
         <span>Powered by Qwen3-VL AI</span>
-        <button className="footer-key-btn" onClick={handleResetKey}>
-          🤗 토큰 변경
-        </button>
       </footer>
     </div>
   );

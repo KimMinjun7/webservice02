@@ -3,6 +3,7 @@ import React, { useState, useRef, useCallback } from 'react';
 const MAX_SIZE = 20 * 1024 * 1024; // 20MB
 const MAX_DIMENSION = 1280;
 const OUTPUT_QUALITY = 0.86;
+const MAX_PAYLOAD_BYTES = 1.5 * 1024 * 1024; // base64 payload limit guard
 
 export default function DropZone({ onImageSelect, disabled }) {
   const [dragOver, setDragOver] = useState(false);
@@ -12,22 +13,44 @@ export default function DropZone({ onImageSelect, disabled }) {
     const img = new Image();
     img.onload = () => {
       const { width, height } = img;
-      const scale = Math.min(1, MAX_DIMENSION / Math.max(width, height));
-      const targetWidth = Math.round(width * scale);
-      const targetHeight = Math.round(height * scale);
+      let scale = Math.min(1, MAX_DIMENSION / Math.max(width, height));
+      let quality = OUTPUT_QUALITY;
+      const outputType = 'image/jpeg';
 
       const canvas = document.createElement('canvas');
-      canvas.width = targetWidth;
-      canvas.height = targetHeight;
       const ctx = canvas.getContext('2d');
       if (!ctx) {
         reject(new Error('이미지를 처리할 수 없습니다.'));
         return;
       }
-      ctx.drawImage(img, 0, 0, targetWidth, targetHeight);
 
-      const outputType = 'image/jpeg';
-      const resizedDataUrl = canvas.toDataURL(outputType, OUTPUT_QUALITY);
+      const render = () => {
+        const targetWidth = Math.max(1, Math.round(width * scale));
+        const targetHeight = Math.max(1, Math.round(height * scale));
+        canvas.width = targetWidth;
+        canvas.height = targetHeight;
+        ctx.clearRect(0, 0, targetWidth, targetHeight);
+        ctx.drawImage(img, 0, 0, targetWidth, targetHeight);
+        return canvas.toDataURL(outputType, quality);
+      };
+
+      let resizedDataUrl = render();
+      let estimatedBytes = Math.floor((resizedDataUrl.length - 22) * 3 / 4);
+      let attempts = 0;
+
+      while (estimatedBytes > MAX_PAYLOAD_BYTES && attempts < 6) {
+        scale *= 0.85;
+        quality = Math.max(0.6, quality * 0.9);
+        resizedDataUrl = render();
+        estimatedBytes = Math.floor((resizedDataUrl.length - 22) * 3 / 4);
+        attempts += 1;
+      }
+
+      if (estimatedBytes > MAX_PAYLOAD_BYTES) {
+        reject(new Error('이미지 용량이 너무 커서 처리할 수 없습니다. 더 작은 사진으로 시도해주세요.'));
+        return;
+      }
+
       resolve({ resizedDataUrl, outputType });
     };
     img.onerror = () => reject(new Error('이미지를 읽을 수 없습니다.'));

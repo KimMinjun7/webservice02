@@ -4,7 +4,7 @@ export default function AboutPage() {
   return (
     <div className="about">
       <span className="about-kicker">서비스 소개</span>
-      <h2 className="about-title">AI 닮은 동물 찾기</h2>
+      <h2 className="about-title">나랑 닮은 동물 찾기</h2>
       <p className="about-lead">
         한 장의 사진으로 얼굴의 분위기와 특징을 분석해 닮은 동물을 재미있게 제안합니다.
         결과는 엔터테인먼트 목적의 참고용이며, 결과를 책임지지 않습니다.

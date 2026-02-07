@@ -117,6 +117,15 @@
   animation: reveal 0.5s ease both;
 }
 
+.panel--ad {
+  padding: 16px;
+}
+
+.ad-wrap {
+  min-height: 90px;
+  width: 100%;
+}
+
 .panel--center {
   display: flex;
   align-items: center;
@@ -180,6 +189,34 @@
   align-items: center;
   margin-top: 20px;
   gap: 16px;
+}
+
+.privacy-note {
+  display: flex;
+  gap: 12px;
+  margin-top: 18px;
+  padding: 14px 16px;
+  border-radius: 16px;
+  background: rgba(46, 196, 182, 0.1);
+  border: 1px solid rgba(46, 196, 182, 0.25);
+  color: var(--ink);
+  font-size: 0.9rem;
+  line-height: 1.5;
+}
+
+.privacy-note strong {
+  display: block;
+  font-weight: 700;
+  margin-bottom: 4px;
+}
+
+.privacy-note p {
+  color: var(--ink-soft);
+}
+
+.privacy-icon {
+  font-size: 1.3rem;
+  margin-top: 2px;
 }
 
 .preview-image {
@@ -394,6 +431,19 @@
   color: var(--ink-soft);
   position: relative;
   z-index: 1;
+}
+
+.footer-copy {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+  text-align: center;
+}
+
+.footer-disclaimer {
+  font-size: 0.72rem;
+  color: rgba(52, 67, 86, 0.7);
 }
 
 @keyframes floatIn {

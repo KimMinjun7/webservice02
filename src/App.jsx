@@ -4,6 +4,7 @@ import { analyzeFace } from './services/gemini';
 import DropZone from './components/DropZone';
 import LoadingAnimation from './components/LoadingAnimation';
 import ResultCard from './components/ResultCard';
+import AdBanner from './components/AdBanner';
 
 function App() {
   const [image, setImage] = useState(null);
@@ -77,6 +78,13 @@ function App() {
         {!result && !loading && (
           <section className="panel">
             <DropZone onImageSelect={handleImageSelect} disabled={loading} />
+            <div className="privacy-note">
+              <span className="privacy-icon" aria-hidden="true">🔒</span>
+              <div>
+                <strong>사진은 저장되지 않습니다.</strong>
+                <p>업로드한 이미지는 분석에만 사용되며 영구 저장하지 않습니다.</p>
+              </div>
+            </div>
             {image && (
               <div className="preview-section">
                 <img src={image.dataUrl} alt="미리보기" className="preview-image" />
@@ -116,10 +124,17 @@ function App() {
             />
           </section>
         )}
+
+        <section className="panel panel--ad">
+          <AdBanner />
+        </section>
       </main>
 
       <footer className="footer">
-        <span>Powered by Qwen3-VL AI</span>
+        <div className="footer-copy">
+          <span>Powered by Qwen3-VL AI</span>
+          <span className="footer-disclaimer">면책 조항: 업로드한 사진은 분석에만 사용되며 저장·공유되지 않고, 분석 결과는 참고용으로 결과에 책임지지 않습니다.</span>
+        </div>
       </footer>
     </div>
   );

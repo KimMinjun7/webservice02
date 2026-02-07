@@ -25,7 +25,7 @@ export default function ResultCard({ result, imageUrl, onRetry, onShare }) {
       </div>
       <div className="result-actions">
         <button className="btn-retry" onClick={onRetry}>
-          🔄 다시 해보기
+          다시 해보기
         </button>
         <button className="btn-share" onClick={onShare}>
           📤 공유하기

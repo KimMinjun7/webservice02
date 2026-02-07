@@ -61,7 +61,7 @@ function App() {
     const text = `나의 닮은 동물은 ${result.emoji} ${result.animal}! (${result.matchPercent}% 닮음)\n${result.description}`;
     if (navigator.share) {
       try {
-        await navigator.share({ title: 'AI 닮은 동물 찾기', text });
+        await navigator.share({ title: '나랑 닮은 동물 찾기', text });
       } catch {
         // user cancelled
       }

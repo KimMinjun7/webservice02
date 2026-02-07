@@ -484,6 +484,10 @@
   color: var(--ink);
 }
 
+.about-ad {
+  margin-top: 18px;
+}
+
 .btn-retry,
 .btn-share {
   padding: 12px 22px;

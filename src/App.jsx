@@ -83,7 +83,7 @@ function App() {
       <header className="header">
         <span className="badge">AI VISUAL MATCH</span>
         <div className="header-row">
-          <h1 className="title">AI 닮은 동물 찾기</h1>
+          <h1 className="title">나랑 닮은 동물 찾기</h1>
           <nav className="nav">
             <a className={`nav-link ${route === '/' ? 'active' : ''}`} href="#/">홈</a>
             <a className={`nav-link ${route === '/about' ? 'active' : ''}`} href="#/about">소개</a>
@@ -101,6 +101,9 @@ function App() {
         {route === '/about' && (
           <section className="panel">
             <AboutPage />
+            <div className="about-ad">
+              <AdBanner refreshKey={adRefresh} />
+            </div>
           </section>
         )}
 

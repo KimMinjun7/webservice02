@@ -1,12 +1,21 @@
 import React, { useEffect, useRef, useState } from 'react';
 
-export default function AdBanner() {
+export default function AdBanner({ refreshKey = 0 }) {
   const pushedRef = useRef(false);
   const slotRef = useRef(null);
   const [status, setStatus] = useState('pending');
 
   useEffect(() => {
-    if (pushedRef.current) return;
+    setStatus('pending');
+    if (pushedRef.current) {
+      try {
+        // eslint-disable-next-line no-undef
+        (adsbygoogle = window.adsbygoogle || []).push({});
+      } catch {
+        // ignore ad errors
+      }
+      return;
+    }
     try {
       // eslint-disable-next-line no-undef
       (adsbygoogle = window.adsbygoogle || []).push({});
@@ -14,7 +23,7 @@ export default function AdBanner() {
     } catch {
       // ignore ad errors
     }
-  }, []);
+  }, [refreshKey]);
 
   useEffect(() => {
     let attempts = 0;
@@ -33,7 +42,7 @@ export default function AdBanner() {
       }
     }, 500);
     return () => clearInterval(timer);
-  }, []);
+  }, [refreshKey]);
 
   if (status === 'unfilled') return null;
 

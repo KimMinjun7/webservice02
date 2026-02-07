@@ -13,6 +13,7 @@ function App() {
   const [loading, setLoading] = useState(false);
   const [result, setResult] = useState(null);
   const [error, setError] = useState('');
+  const [adRefresh, setAdRefresh] = useState(0);
 
   useEffect(() => {
     const onHashChange = () => {
@@ -28,8 +29,13 @@ function App() {
     setError('');
   }, []);
 
+  const bumpAd = useCallback(() => {
+    setAdRefresh((prev) => prev + 1);
+  }, []);
+
   const handleAnalyze = useCallback(async () => {
     if (!image) return;
+    bumpAd();
     setLoading(true);
     setError('');
     setResult(null);
@@ -41,13 +47,14 @@ function App() {
     } finally {
       setLoading(false);
     }
-  }, [image]);
+  }, [image, bumpAd]);
 
   const handleRetry = useCallback(() => {
     setImage(null);
     setResult(null);
     setError('');
-  }, []);
+    bumpAd();
+  }, [bumpAd]);
 
   const handleShare = useCallback(async () => {
     if (!result) return;
@@ -147,7 +154,7 @@ function App() {
           </section>
         )}
 
-        {route === '/' && <AdBanner />}
+        {route === '/' && <AdBanner refreshKey={adRefresh} />}
       </main>
 
       <footer className="footer">

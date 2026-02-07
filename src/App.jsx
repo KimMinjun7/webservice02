@@ -1,16 +1,26 @@
-import React, { useState, useCallback } from 'react';
+import React, { useState, useCallback, useEffect } from 'react';
 import './App.css';
 import { analyzeFace } from './services/gemini';
 import DropZone from './components/DropZone';
 import LoadingAnimation from './components/LoadingAnimation';
 import ResultCard from './components/ResultCard';
 import AdBanner from './components/AdBanner';
+import AboutPage from './components/AboutPage';
 
 function App() {
+  const [route, setRoute] = useState(() => window.location.hash.replace('#', '') || '/');
   const [image, setImage] = useState(null);
   const [loading, setLoading] = useState(false);
   const [result, setResult] = useState(null);
   const [error, setError] = useState('');
+
+  useEffect(() => {
+    const onHashChange = () => {
+      setRoute(window.location.hash.replace('#', '') || '/');
+    };
+    window.addEventListener('hashchange', onHashChange);
+    return () => window.removeEventListener('hashchange', onHashChange);
+  }, []);
 
   const handleImageSelect = useCallback((img) => {
     setImage(img);
@@ -65,7 +75,13 @@ function App() {
       <div className="bg-orb bg-orb--three" aria-hidden="true" />
       <header className="header">
         <span className="badge">AI VISUAL MATCH</span>
-        <h1 className="title">AI 닮은 동물 찾기</h1>
+        <div className="header-row">
+          <h1 className="title">AI 닮은 동물 찾기</h1>
+          <nav className="nav">
+            <a className={`nav-link ${route === '/' ? 'active' : ''}`} href="#/">홈</a>
+            <a className={`nav-link ${route === '/about' ? 'active' : ''}`} href="#/about">소개</a>
+          </nav>
+        </div>
         <p className="subtitle">사진 한 장으로 분위기와 표정을 읽고 닮은 동물을 찾아드려요.</p>
         <div className="meta">
           <span className="meta-chip">1. 사진 업로드</span>
@@ -75,7 +91,13 @@ function App() {
       </header>
 
       <main className="main">
-        {!result && !loading && (
+        {route === '/about' && (
+          <section className="panel">
+            <AboutPage />
+          </section>
+        )}
+
+        {route === '/' && !result && !loading && (
           <section className="panel">
             <DropZone onImageSelect={handleImageSelect} disabled={loading} />
             <div className="privacy-note">
@@ -96,13 +118,13 @@ function App() {
           </section>
         )}
 
-        {loading && (
+        {route === '/' && loading && (
           <section className="panel panel--center">
             <LoadingAnimation />
           </section>
         )}
 
-        {error && (
+        {route === '/' && error && (
           <section className="panel panel--center">
             <div className="error-box">
               <span className="error-icon">😿</span>
@@ -114,7 +136,7 @@ function App() {
           </section>
         )}
 
-        {result && (
+        {route === '/' && result && (
           <section className="panel">
             <ResultCard
               result={result}
@@ -125,7 +147,7 @@ function App() {
           </section>
         )}
 
-        <AdBanner />
+        {route === '/' && <AdBanner />}
       </main>
 
       <footer className="footer">

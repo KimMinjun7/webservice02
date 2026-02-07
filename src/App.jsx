@@ -59,14 +59,23 @@ function App() {
 
   return (
     <div className="app">
+      <div className="bg-orb bg-orb--one" aria-hidden="true" />
+      <div className="bg-orb bg-orb--two" aria-hidden="true" />
+      <div className="bg-orb bg-orb--three" aria-hidden="true" />
       <header className="header">
-        <h1>🐾 AI 닮은 동물 찾기</h1>
-        <p>사진을 올리면 AI가 닮은 동물을 찾아줘요!</p>
+        <span className="badge">AI VISUAL MATCH</span>
+        <h1 className="title">AI 닮은 동물 찾기</h1>
+        <p className="subtitle">사진 한 장으로 분위기와 표정을 읽고 닮은 동물을 찾아드려요.</p>
+        <div className="meta">
+          <span className="meta-chip">1. 사진 업로드</span>
+          <span className="meta-chip">2. AI 분석</span>
+          <span className="meta-chip">3. 결과 공유</span>
+        </div>
       </header>
 
       <main className="main">
         {!result && !loading && (
-          <>
+          <section className="panel">
             <DropZone onImageSelect={handleImageSelect} disabled={loading} />
             {image && (
               <div className="preview-section">
@@ -76,28 +85,36 @@ function App() {
                 </button>
               </div>
             )}
-          </>
+          </section>
         )}
 
-        {loading && <LoadingAnimation />}
+        {loading && (
+          <section className="panel panel--center">
+            <LoadingAnimation />
+          </section>
+        )}
 
         {error && (
-          <div className="error-box">
-            <span className="error-icon">😿</span>
-            <p>{error}</p>
-            <button className="btn-retry" onClick={() => setError('')}>
-              다시 시도
-            </button>
-          </div>
+          <section className="panel panel--center">
+            <div className="error-box">
+              <span className="error-icon">😿</span>
+              <p>{error}</p>
+              <button className="btn-retry" onClick={() => setError('')}>
+                다시 시도
+              </button>
+            </div>
+          </section>
         )}
 
         {result && (
-          <ResultCard
-            result={result}
-            imageUrl={image.dataUrl}
-            onRetry={handleRetry}
-            onShare={handleShare}
-          />
+          <section className="panel">
+            <ResultCard
+              result={result}
+              imageUrl={image.dataUrl}
+              onRetry={handleRetry}
+              onShare={handleShare}
+            />
+          </section>
         )}
       </main>
 

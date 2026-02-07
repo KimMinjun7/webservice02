@@ -1,19 +1,19 @@
-@import url('https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800&family=Quicksand:wght@400;500;600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Fraunces:wght@600;700;800&family=Manrope:wght@400;500;600;700&display=swap');
 
 :root {
-  --pink: #FF6B9D;
-  --pink-light: #FF8FB8;
-  --mint: #4ECDC4;
-  --mint-light: #7EDDD6;
-  --yellow: #FFE66D;
-  --yellow-light: #FFF0A0;
-  --bg: #FFF5F7;
-  --card-bg: #FFFFFF;
-  --text: #2D3436;
-  --text-light: #636E72;
-  --shadow: rgba(255, 107, 157, 0.15);
-  --font-heading: 'Nunito', sans-serif;
-  --font-body: 'Quicksand', sans-serif;
+  --ink: #18212b;
+  --ink-soft: #344356;
+  --teal: #2ec4b6;
+  --teal-dark: #1aa19a;
+  --coral: #ff7a6b;
+  --coral-soft: #ffb199;
+  --sun: #ffd166;
+  --paper: #fffaf2;
+  --card: #ffffff;
+  --shadow: 0 24px 60px rgba(17, 33, 50, 0.12);
+  --ring: 0 0 0 3px rgba(46, 196, 182, 0.2);
+  --font-heading: 'Fraunces', serif;
+  --font-body: 'Manrope', sans-serif;
 }
 
 *, *::before, *::after {
@@ -24,9 +24,12 @@
 
 body {
   font-family: var(--font-body);
-  background-color: var(--bg);
-  color: var(--text);
+  color: var(--ink);
   min-height: 100vh;
+  background:
+    radial-gradient(1200px 600px at 10% -10%, rgba(255, 209, 102, 0.35), transparent 60%),
+    radial-gradient(900px 500px at 90% 0%, rgba(46, 196, 182, 0.25), transparent 55%),
+    linear-gradient(180deg, #fff6ea 0%, #fffdf9 55%, #fff5f2 100%);
   -webkit-font-smoothing: antialiased;
 }
 
@@ -34,4 +37,8 @@ body {
   min-height: 100vh;
   display: flex;
   justify-content: center;
+}
+
+button, input, textarea {
+  font-family: inherit;
 }

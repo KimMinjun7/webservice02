@@ -125,9 +125,7 @@ function App() {
           </section>
         )}
 
-        <section className="panel panel--ad">
-          <AdBanner />
-        </section>
+        <AdBanner />
       </main>
 
       <footer className="footer">

@@ -118,12 +118,20 @@
 }
 
 .panel--ad {
-  padding: 16px;
+  padding: 0;
+  background: transparent;
+  box-shadow: none;
+  border: none;
+  backdrop-filter: none;
 }
 
 .ad-wrap {
   min-height: 90px;
   width: 100%;
+}
+
+.panel--ad-pending {
+  min-height: 0;
 }
 
 .panel--center {

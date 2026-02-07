@@ -1,5 +1,4 @@
-const API_URL =
-  'https://router.huggingface.co/hf-inference/models/Qwen/Qwen3-VL-8B-Instruct/v1/chat/completions';
+const API_URL = 'https://router.huggingface.co/v1/chat/completions';
 
 const PROMPT = `You are an expert at finding animal look-alikes for human faces. Analyze this person's photo and determine which animal they resemble the most.
 
@@ -60,6 +59,9 @@ function mapError(status, message) {
   if (status === 401 || status === 403) {
     return 'HuggingFace 토큰이 유효하지 않습니다. 토큰을 확인해주세요.';
   }
+  if (status === 404) {
+    return '요청한 모델을 찾을 수 없습니다. HF_MODEL 설정 또는 지원되는 모델인지 확인해주세요.';
+  }
   if (status === 422) {
     return '이미지를 처리할 수 없습니다. 다른 사진으로 시도해주세요.';
   }
@@ -87,6 +89,8 @@ export default async function handler(req, res) {
     return;
   }
 
+  const model = process.env.HF_MODEL || 'Qwen/Qwen3-VL-8B-Instruct';
+
   const { imageBase64, mimeType } = req.body || {};
   if (!imageBase64 || !mimeType) {
     res.status(400).json({ error: '이미지 데이터가 없습니다.' });
@@ -103,7 +107,7 @@ export default async function handler(req, res) {
         'Content-Type': 'application/json',
       },
       body: JSON.stringify({
-        model: 'Qwen/Qwen3-VL-8B-Instruct',
+        model,
         messages: [
           {
             role: 'user',
@@ -119,8 +123,9 @@ export default async function handler(req, res) {
     });
 
     if (!hfRes.ok) {
-      const errorBody = await hfRes.text().catch(() => '');
-      res.status(hfRes.status).json({ error: mapError(hfRes.status, errorBody) });
+      const errorJson = await hfRes.json().catch(() => null);
+      const errorText = errorJson?.error || errorJson?.message || '';
+      res.status(hfRes.status).json({ error: mapError(hfRes.status, errorText) });
       return;
     }
 
